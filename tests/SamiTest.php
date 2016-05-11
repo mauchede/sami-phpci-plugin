@@ -25,9 +25,9 @@ class SamiTest extends \PHPUnit_Framework_TestCase
     private $phpci;
 
     /**
-     * Tests the plugin with the parameter "config".
+     * Tests the plugin with the parameter "config". This parameter will contain an absolute path.
      */
-    public function testExecuteWithConfigParameter()
+    public function testExecuteWithAbsoluteConfigParameter()
     {
         $this->phpci
             ->expects($this->any())
@@ -55,6 +55,40 @@ class SamiTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertTrue($plugin->execute());
+    }
+
+    /**
+     * Tests the plugin with the parameter "config". This parameter will contain a relative path.
+     */
+    public function testExecuteWithRelativeConfigParameter()
+    {
+        $this->phpci
+            ->expects($this->any())
+            ->method('findBinary')
+            ->with('sami')
+            ->willReturn('/usr/local/bin/sami');
+
+        $this->phpci
+            ->expects($this->once())
+            ->method('executeCommand')
+            ->with(
+                '%s update %s %s --quiet --no-ansi --no-interaction',
+                '/usr/local/bin/sami',
+                'Fixtures/sami.php',
+                '--force'
+            )
+            ->willReturn(true);
+
+        $plugin = new Sami(
+            $this->phpci,
+            $this->build,
+            [
+                'config' => 'Fixtures/sami.php',
+            ]
+        );
+
+        $this->assertTrue($plugin->execute());
+        $this->assertEquals(__DIR__, getcwd());
     }
 
     /**
@@ -107,7 +141,7 @@ class SamiTest extends \PHPUnit_Framework_TestCase
             ->with(
                 sprintf(
                     'The sami config file "%s" is missing.',
-                    __DIR__.'/sami.php'
+                    'sami.php'
                 )
             );
 

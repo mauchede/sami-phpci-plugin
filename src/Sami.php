@@ -28,7 +28,7 @@ class Sami implements Plugin
         $this->phpci = $phpci;
         $this->executable = $this->phpci->findBinary('sami');
 
-        $this->configFile = $this->phpci->buildPath.'/sami.php';
+        $this->configFile = 'sami.php';
         if (isset($options['config'])) {
             $this->configFile = $options['config'];
         }
@@ -44,6 +44,8 @@ class Sami implements Plugin
      */
     public function execute()
     {
+        chdir($this->phpci->buildPath);
+
         if (!is_file($this->configFile)) {
             $this->phpci->logFailure(sprintf('The sami config file "%s" is missing.', $this->configFile));
 
