@@ -2,6 +2,8 @@
 
 Sami PHPCI Plugin gives the possibility to generate a documentation with [Sami](https://github.com/FriendsOfPHP/Sami) in [PHPCI](https://www.phptesting.org/).
 
+⚠️ This project is no longer maintained. ⚠️
+
 ## Installation
 
 This plugin can be installed via [composer](https://getcomposer.org/):
@@ -24,14 +26,6 @@ complete:
         config: sami.config.file
         force: false
 ```
-
-## Contributing
-
-1. Fork it.
-2. Create your branch: `git checkout -b my-new-feature`.
-3. Commit your changes: `git commit -am 'Add some feature'`.
-4. Push to the branch: `git push origin my-new-feature`.
-5. Submit a pull request.
 
 ## Links
 
